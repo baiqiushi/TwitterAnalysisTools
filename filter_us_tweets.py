@@ -31,6 +31,6 @@ if __name__ == '__main__':
     for line in sys.stdin:
         tweet_dict = ast.literal_eval(line)
         if is_us_tweet(tweet_dict):
-            tweet_json = json.dumps(tweet_dict)
+            tweet_json = json.dumps(tweet_dict.encode('utf-8').strip())
             print(tweet_json)
 
