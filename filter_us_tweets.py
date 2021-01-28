@@ -10,6 +10,9 @@ import json
 #    filter logic is the following:
 #      tweet.place.country_code == 'US'
 #
+#  Requirement:
+#    Python3.7+
+#
 #  Example:
 #    gunzip -c coronavirus_12-27-2020.gz | python3 filter_us_tweets.py >> coronavirus_12-27-2020_us.json
 #
@@ -31,6 +34,6 @@ if __name__ == '__main__':
     for line in sys.stdin:
         tweet_dict = ast.literal_eval(line)
         if is_us_tweet(tweet_dict):
-            tweet_json = json.dumps(tweet_dict.encode('utf-8').strip())
+            tweet_json = json.dumps(tweet_dict)
             print(tweet_json)
 
