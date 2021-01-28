@@ -19,6 +19,11 @@ import json
 #
 #  Author:
 #    Qiushi Bai (baiqiushi@gmail.com)
+#
+#  TODO:
+#    The datetime typed attributes (e.g., created_at) in the json generated are not in ISO format,
+#    which might not be accepted directly by consumers (e.g., MySQL).
+#    Later, we might need to format those values universally.
 ###########################################################
 
 

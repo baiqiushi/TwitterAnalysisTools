@@ -1,4 +1,5 @@
 import csv
+import datetime
 import sys
 import json
 from collections import OrderedDict
@@ -17,7 +18,7 @@ from collections import OrderedDict
 ###########################################################
 schema = OrderedDict()
 schema['id'] = 'bigint'
-schema['create_at'] = 'datetime'
+schema['created_at'] = 'datetime'
 schema['text'] = 'varchar(500)'
 schema['in_reply_to_status'] = 'varchar(25)'
 schema['in_reply_to_user'] = 'varchar(25)'
@@ -58,6 +59,8 @@ if __name__ == '__main__':
                 value = tweet_json.get("user").get(column_name[5:])
             elif column_name == 'is_retweet' and tweet_json.get(column_name):
                 value = int(tweet_json.get(column_name))
+            elif column_name == 'created_at' and tweet_json.get(column_name):
+                value = datetime.datetime.strptime(tweet_json.get(column_name), '%a %b %d %H:%M:%S %z %Y')
             else:
                 value = tweet_json.get(column_name)
             csv_row.append(value)
