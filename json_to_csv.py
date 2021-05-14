@@ -32,10 +32,13 @@ schema['user_id'] = 'bigint'
 schema['user_name'] = 'varchar(500)'
 schema['user_screen_name'] = 'varchar(500)'
 schema['user_location'] = 'varchar(500)'
+schema['user_created_at'] = 'datetime'
 schema['user_description'] = 'varchar(500)'
 schema['user_followers_count'] = 'int'
 schema['user_friends_count'] = 'int'
-schema['user_statues_count'] = 'int'
+schema['user_listed_count'] = 'int'
+schema['user_favourites_count'] = 'int'
+schema['user_statuses_count'] = 'int'
 schema['stateID'] = 'int'
 schema['stateName'] = 'varchar(100)'
 schema['countyID'] = 'int'
@@ -62,10 +65,16 @@ if __name__ == '__main__':
                     tweet_json.get("geo_tag"):
                 value = tweet_json.get("geo_tag").get(column_name)
             # attributes inside "user" sub-object
-            elif column_name in ["user_id", "user_name", "user_screen_name", "user_location", "user_description",
-                                 "user_followers_count", "user_friends_count", "user_statues_count"] \
+            elif column_name in ["user_id", "user_name", "user_screen_name", "user_location", "user_created_at",
+                                 "user_description", "user_followers_count", "user_friends_count", "user_listed_count",
+                                 "user_favourites_count", "user_statuses_count"] \
                     and tweet_json.get("user"):
-                value = tweet_json.get("user").get(column_name[5:])
+                # user_created_at is specially handled due to its type is datetime
+                if column_name == 'user_created_at':
+                    value = datetime.datetime.strptime(tweet_json.get("user").get(column_name[5:]),
+                                                       '%a %b %d %H:%M:%S %z %Y')
+                else:
+                    value = tweet_json.get("user").get(column_name[5:])
             # created_at needs to be formatted acceptable by MySQL
             elif column_name == 'created_at' and tweet_json.get(column_name):
                 value = datetime.datetime.strptime(tweet_json.get(column_name), '%a %b %d %H:%M:%S %z %Y')
